@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 public class WordServiceImpl implements WordService {
@@ -33,6 +35,11 @@ public class WordServiceImpl implements WordService {
     @Override
     public Word getWord(long id) {
         return wordMapper.getWord(id);
+    }
+
+    @Override
+    public List<Word> getWords() {
+        return wordMapper.getWords();
     }
 
     @Transactional

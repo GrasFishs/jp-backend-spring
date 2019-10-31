@@ -8,6 +8,8 @@ import com.learn.util.RetCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/word")
 public class WordController {
@@ -17,6 +19,20 @@ public class WordController {
     @Autowired
     public WordController(WordServiceImpl wordService) {
         this.wordService = wordService;
+    }
+
+    @GetMapping
+    public Response<List<Word>> getWords() {
+        List<Word> words = wordService.getWords();
+        Response<List<Word>> response = new Response<>();
+        if (words.size() > 0) {
+            response.setData(words);
+            response.setCode(RetCode.SUCCESS);
+        } else {
+            response.setCode(RetCode.NOT_FOUND);
+            response.setMsg("there are no words");
+        }
+        return response;
     }
 
     @GetMapping("/{id}")

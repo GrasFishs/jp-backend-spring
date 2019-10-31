@@ -5,6 +5,8 @@ import com.learn.model.Word;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * "SELECT word_info.id id, word_info.text text FROM word, word_info WHERE word.id = #{id} AND " +
  * "word_info.id = #{id} AND " +
@@ -30,6 +32,20 @@ public interface WordMapper {
             )
     })
     Word getWord(long id);
+
+
+    @Select("SELECT * FROM word, word_info WHERE word.id = word_info.id")
+    @Results({
+            @Result(id = true, column = "id", property = "id"),
+            @Result(column = "notation_id", property = "notation",
+                    one = @One(select = "com.learn.mapper.NotationMapper.getNotation")),
+            @Result(column = "id", property = "means",
+                    many = @Many(select = "com.learn.mapper.MeanMapper.getMeansByWordId")),
+            @Result(column = "id", property = "sentences",
+                    many = @Many(select = "com.learn.mapper.SentenceMapper.getSentencesByWordId")
+            )
+    })
+    List<Word> getWords();
 
     @Insert("INSERT INTO word_info (`text`) VALUES (#{text})")
     @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
