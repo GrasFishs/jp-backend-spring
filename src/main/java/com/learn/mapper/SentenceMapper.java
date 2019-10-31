@@ -15,7 +15,7 @@ public interface SentenceMapper {
     @Select("SELECT * FROM sentence WHERE id = #{id}")
     Sentence getSentence(int id);
 
-    @Select("SELECT * FROM sentence, word_sentence WHERE word_sentence.word_id = #{id}")
+    @Select("SELECT * FROM sentence, word_sentence WHERE word_sentence.word_id = #{id} AND sentence.id = word_sentence.sentence_id")
     List<Sentence> getSentencesByWordId(long id);
 
 
