@@ -32,4 +32,13 @@ public class Notation {
     public void setTones(List<Tone> tones) {
         this.tones = tones;
     }
+
+    @Override
+    public String toString() {
+        return "Notation{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", tones=" + tones +
+                '}';
+    }
 }

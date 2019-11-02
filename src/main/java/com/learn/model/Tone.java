@@ -32,4 +32,13 @@ public class Tone {
     public void setType(int type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "Tone{" +
+                "id=" + id +
+                ", index=" + index +
+                ", type=" + type +
+                '}';
+    }
 }

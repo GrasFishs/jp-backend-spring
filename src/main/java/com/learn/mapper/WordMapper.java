@@ -1,6 +1,7 @@
 package com.learn.mapper;
 
 import com.learn.model.Notation;
+import com.learn.model.UserWord;
 import com.learn.model.Word;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public interface WordMapper {
 
 
     @Select("SELECT * FROM word, word_info WHERE word.id = ${id} AND word.id = word_info.id")
-    @Results({
+    @Results(id = "word", value = {
             @Result(id = true, column = "id", property = "id"),
             @Result(column = "notation_id", property = "notation",
                     one = @One(select = "com.learn.mapper.NotationMapper.getNotation")),
@@ -35,16 +36,7 @@ public interface WordMapper {
 
 
     @Select("SELECT * FROM word, word_info WHERE word.id = word_info.id")
-    @Results({
-            @Result(id = true, column = "id", property = "id"),
-            @Result(column = "notation_id", property = "notation",
-                    one = @One(select = "com.learn.mapper.NotationMapper.getNotation")),
-            @Result(column = "id", property = "means",
-                    many = @Many(select = "com.learn.mapper.MeanMapper.getMeansByWordId")),
-            @Result(column = "id", property = "sentences",
-                    many = @Many(select = "com.learn.mapper.SentenceMapper.getSentencesByWordId")
-            )
-    })
+    @ResultMap("word")
     List<Word> getWords();
 
     @Insert("INSERT INTO word_info (`text`) VALUES (#{text})")

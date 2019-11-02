@@ -41,4 +41,14 @@ public class Sentence {
     public void setMean(String mean) {
         this.mean = mean;
     }
+
+    @Override
+    public String toString() {
+        return "Sentence{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", mean='" + mean + '\'' +
+                ", highlight='" + highlight + '\'' +
+                '}';
+    }
 }

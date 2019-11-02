@@ -21,4 +21,12 @@ public class Speech {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Speech{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

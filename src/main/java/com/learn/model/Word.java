@@ -53,4 +53,15 @@ public class Word {
     public void setSentences(List<Sentence> sentences) {
         this.sentences = sentences;
     }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", notation=" + notation +
+                ", means=" + means +
+                ", sentences=" + sentences +
+                '}';
+    }
 }
