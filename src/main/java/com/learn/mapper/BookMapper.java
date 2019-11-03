@@ -3,9 +3,11 @@ package com.learn.mapper;
 import com.learn.model.Book;
 import com.learn.model.Chapter;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface BookMapper {
 
 

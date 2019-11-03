@@ -2,14 +2,14 @@ package com.learn.service.impl;
 
 import com.learn.mapper.*;
 
-import com.learn.model.Mean;
-import com.learn.model.Sentence;
-import com.learn.model.Tone;
-import com.learn.model.Word;
+import com.learn.model.*;
 import com.learn.service.WordService;
+import com.learn.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -32,15 +32,19 @@ public class WordServiceImpl implements WordService {
     @Autowired
     private ToneMapper toneMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public Word getWord(long id) {
         return wordMapper.getWord(id);
     }
 
     @Override
-    public List<Word> getWords() {
-        return wordMapper.getWords();
+    public List<UserWord> getWordsByUserId(long id, List<Integer> chapterIds, int grWeight, int size) {
+        return userMapper.getUserWords(id, chapterIds, grWeight, size);
     }
+
 
     @Transactional
     @Override
@@ -68,5 +72,9 @@ public class WordServiceImpl implements WordService {
             sentenceMapper.addWordSentence(st.getId(), wordId);
         }
         return wordId;
+    }
+
+    public List<UserWord> getUserWords(long id, List<Integer> chapterIds, int grWeight, int size) {
+        return userMapper.getUserWords(id, chapterIds, grWeight, size);
     }
 }

@@ -1,5 +1,6 @@
 package com.learn.controller;
 
+import com.learn.model.UserWord;
 import com.learn.model.Word;
 import com.learn.service.WordService;
 import com.learn.service.impl.WordServiceImpl;
@@ -8,7 +9,11 @@ import com.learn.util.RetCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/word")
@@ -21,17 +26,21 @@ public class WordController {
         this.wordService = wordService;
     }
 
-    @GetMapping
-    public Response<List<Word>> getWords() {
-        List<Word> words = wordService.getWords();
-        Response<List<Word>> response = new Response<>();
-        if (words.size() > 0) {
-            response.setData(words);
-            response.setCode(RetCode.SUCCESS);
-        } else {
-            response.setCode(RetCode.NOT_FOUND);
-            response.setMsg("there are no words");
-        }
+    @GetMapping(value = "/user", params = {"id", "chapters", "weight", "size"})
+    public Response<List<UserWord>> getWords(
+            @RequestParam("id") long id,
+            @RequestParam("chapters") String chapters,
+            @RequestParam("weight") int weight,
+            @RequestParam("size") int size
+    ) {
+        List<Integer> chapterIds = Arrays
+                .stream(chapters.split(","))
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
+        List<UserWord> words = wordService.getWordsByUserId(id, chapterIds, weight, size);
+        Response<List<UserWord>> response = new Response<>();
+        response.setData(words);
+        response.setCode(RetCode.SUCCESS);
         return response;
     }
 

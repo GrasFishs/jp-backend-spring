@@ -4,14 +4,19 @@ import com.learn.model.Book;
 import com.learn.model.User;
 import com.learn.model.UserWord;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Repository
 public interface UserMapper {
-
 
     @Select("SELECT * FROM user WHERE id = #{id}")
     User getUser(long id);
+
+    @Select("SELECT * FROM user WHERE open_id = #{openId}")
+    User getUserByOpenId(long openId);
 
 
     @Select("SELECT * FROM book, user_book AND user_id = #{id} AND book.id = book_id")
@@ -25,6 +30,7 @@ public interface UserMapper {
 
     @Insert("INSERT INTO user (open_id, nickname, avatar_url, gender, country, province, city) VALUES " +
             "(#{openId}, #{nickname}, #{avatarUrl}, #{gender}, #{county}, #{province}, #{city})")
+    @Options(keyColumn = "id", keyProperty = "id", useGeneratedKeys = true)
     int addUser(User user);
 
     @Insert("INSERT INTO user_word (user_id, word_id, weight) " +
@@ -44,8 +50,8 @@ public interface UserMapper {
             "word.id = word_info.id AND " +
             "chapter_word_relation.word_id = word.id AND " +
             "chapter_word_relation.chapter_id in" +
-            "<foreach collection='chapters' open='(' item='id' separator=',' close=')'>#{id}</foreach> "+
-            "LIMIT #{size}"+
+            "<foreach collection='chapters' open='(' item='id' separator=',' close=')'>#{id}</foreach> " +
+            "LIMIT #{size}" +
             "</script>")
     @Results({
             @Result(column = "notation_id", property = "notation",

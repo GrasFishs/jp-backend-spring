@@ -3,10 +3,12 @@ package com.learn.mapper;
 import com.learn.model.Chapter;
 import com.learn.model.Word;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface ChapterMapper {
 
 
